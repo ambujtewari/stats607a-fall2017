@@ -1,0 +1,259 @@
+\documentclass{article}
+
+\input{stats607-header}
+
+\begin{document}
+
+
+\author{Ambuj Tewari}
+\title{STATS 607A (Fall '15): Assignment 1\\
+Due: Oct 1, 2017 11:59 PM}
+\date{Sep 23, 2017}
+
+\maketitle
+
+\begin{center}
+This version: 1.0
+\end{center}
+
+\subsection*{How to turn in?}
+
+Zip the following 4 files:\\
+{\tt assignment\_one\_kmeans.py} \\
+{\tt assignment\_one\_optimization.py} \\
+{\tt assignment\_one\_nearest\_neighbor.py} \\
+{\tt assignment\_one\_answers.pdf} \\
+into a single {\tt .zip} file and name it {\tt assignment\_one\_uniqname.zip} where {\tt uniqname} is your U of M uniqname. Upload your zip file to Canvas using the ``Assignments" link on the left. Make sure
+ you are submitting ``Assignment 1".
+
+The first 3 files should be python scripts that run without any error message. The last file should be a PDF file with answers to all questions below. 
+
+\section{K-means (8 points)}
+
+The article \href{http://link.springer.com/article/10.1007\%2Fs10115-007-0114-2}{Top 10 algorithms in data mining} ``presents the top 10 data mining algorithms identified by the IEEE International
+Conference on Data Mining (ICDM) in December 2006: C4.5, k-Means, SVM, Apriori, EM, PageRank, AdaBoost, kNN, Naive Bayes, and CART." We will be implementing some of these
+algorithms in homework assignments.
+
+To begin with, we will implement the \href{http://en.wikipedia.org/wiki/K-means_clustering\#Standard_algorithm}{K-means algorithm}. Download a test dataset ``seeds" from:\\
+\url{http://archive.ics.uci.edu/ml/datasets/seeds} \\
+In the file {\tt seeds\_dataset.txt}, there are 210 instances of dimension 7 along with a categorical label (1, 2, or 3). Download an (incomplete!) python script by following the following
+link:\\
+\href{https://github.com/ambujtewari/stats607a-fall2017/blob/master/homeworks/assignment_one_kmeans.py}{\tt assignment\_one\_kmeans.py} \\
+Click on the ``Raw" button on the top right and save the file as {\tt assignment\_one\_kmeans.py}.
+
+Open the python script in your favorite text editors. You will see a bunch of places where a comment says {\tt TASK x.y(.z)}. These are the places where you have to supply your
+own code.\\
+{\bf Important:} Please only change/add code where the tasks require you to do so (sometimes you'll have to replace a {\tt pass} statement with real code, sometimes you'll be changing existing statements). Please {\em don't} modify the existing code and comments anywhere else! We might use automated scripts to grade your code and not following this suggestion will break those scripts.
+
+We will now briefly describe your tasks. If something is unclear, please don't hesitate to email the instructor and/or GSI.
+
+\subsection{Reading in the data (1 point)}
+
+We will read in the instances into two lists: {\tt instances} and {\tt labels}. The former will a list of 7-dimensional instance. An instance will itself be represented using a list of length 7.
+The latter will be a list of the labels (note that the label occurs at the end of each line).
+
+Task 1.1 has 2 subtasks: 1.1.1 and 1.1.2.
+
+\subsection{Finding number of unique labels (1 point)}
+
+Finish the definition of the function {\tt num\_unique\_labels} so that it finds out how many unique labels are there in its argument {\tt labels}. Make sure it returns 3 for the labels obtained
+from the seeds dataset.
+
+\subsection{Implementing K-means++ (2 points)}
+
+\href{http://en.wikipedia.org/wiki/K-means\%2B\%2B}{K-means++} is an enhanced version of the classic K-means algorithm. It only differs from the classic algorithm in the way it initializes the $K$ centers.
+Implement the function {\tt kmeans\_plus\_plus} so that this enhanced initialization is available by supplying the optional argument {\tt init} to {\tt cluster\_using\_kmeans}. Its default value is ``random" (in this case,
+the initial centers are simply chosen at uniformly at random without replacement).
+
+Note that this task hasn't been broken down into precisely defined subtasks deliberately. We want to see how well you document your code when given complete freedom. We also want to see how much
+variation we see in your solutions to this task. Remember those extra credits for running time -- this is the task where to get them by beating your fellow students' approaches!
+
+\subsection{Cluster assignment step of K-means (1 points)}
+
+Implement the function {\tt assign\_cluster\_ids}.
+
+Task 1.4 has 2 subtasks: 1.4.1 and 1.4.2.
+
+\subsection{Center re-computation step of K-means (1 points)}
+
+Implement the function {\tt recompute\_centers}.
+
+Task 1.5 has 2 subtasks: 1.5.1 and 1.5.2.
+
+\subsection{Running the script and discussing the output (2 points)}
+
+Once you have supplied all missing pieces of the code, run the script using:\\
+{\tt python assignment\_one\_kmeans.py}
+
+Answer the following questions:
+\begin{description}
+\item[Q. 1.1]
+How does the kmeans clustering compare to the provided labels? On how many instances do they disagree?
+\item[Q. 1.2]
+How does the kmeans++ clustering compare to the provided labels? How does it compare to the kmeans clustering? Is there any difference at all?
+\end{description}
+
+
+\section{Simple Optimization (10 points)}
+
+In the problem, we will implement two simple optimization algorithms: gradient descent and coordinate descent. A gradient descent iteration is simple:
+\[
+x \gets x - \alpha \nabla f(x)
+\]
+where $\alpha > 0$ is a step size parameter.
+
+\subsection{Implement gradient descent given gradient evaluator (2 points)}
+
+Download the incomplete code from:
+\href{https://github.com/ambujtewari/stats607a-fall2015/blob/master/homeworks/assignment_one_optimization.py}{\tt assignment\_one\_optimization.py} \\
+Also download:
+\href{https://github.com/ambujtewari/stats607a-fall2015/blob/master/homeworks/losses.py}{\tt losses.py} \\
+and make sure you put the two files in the same directory (the former {\tt import}s the latter).
+
+Implement the function {\tt gradient\_descent}. Note that the argument {\tt func\_grad} gives you the gradient at an arbitrary point. The gradient 
+as well as the iterates have dimension {\tt dim} and are both represented as lists of floating point numbers (of length {\tt dim})
+
+Task 2.1 has 2 subtasks: 2.1.1 and 2.1.2.
+
+\subsection{Implement coordinate descent given partial derivative evaluator (2 points)}
+
+Implement the function {\tt coordinate\_descent}. This is the algorithm whose single iteration looks like:\\
+
+\noindent
+{\bf For} $j$ {\bf in} $i_1, i_2, \ldots, i_d$ \\
+$\phantom{aaaa} x_j \gets x_j - \alpha [\nabla f(x)]_j$\\
+
+\noindent
+where $[\nabla f(x)]_j$ is the partial derivative $\partial f/\partial x_j$ evaluated at $x$.
+
+There are two version of coordinate descent: cyclic and random. In the cyclic version, the sequence of coordinates we change is deterministic. It is simply $i_1=1,
+i_2=2, i_3=3, \ldots$ (of course, remember that, in Python, the indices will start from $0$ not $1$).
+In the random version, the sequence $i_1, i_2, \ldots, i_d$ is a random draw from the coordinates $1$ through $d$ (let us say with replacement). You have to implement
+both versions. Note that the argument {\tt func\_grad\_1d} is a function that takes two arguments, $x$ (first) and $j$ (second), and gives you $[\nabla f(x)_j]$.
+
+Task 2.2 has 3 subtasks: 2.2.1, 2.2.2 and 2.2.3 (0.5, 0.5 and 1 point respectively).
+
+\subsection{Loss and loss gradient evaluators (2 points)}
+
+We will test the two optimization algorithms on functions that arise in maximum-likelihood estimation problems in regression/classification using linear models.
+In particular, we will consider (unconstrained) minimization of
+\begin{equation}\label{loss}
+f(\beta) = \frac{1}{n} \sum_{i=1}^n \ell(\beta^\top X_i, Y_i)
+\end{equation}
+where $X_i \in \reals^d, Y_i \in \reals$ and $\ell(t, y)$ is a non-negative loss functions such as the squared loss $(t-y)^2$ or the logistic loss
+$\log(1+\exp(-yt))$ (used in classification settings where $y \in \{-1,+1\}$). These two losses along with the gradients $\ell'(t,y)$ (w.r.t. the first argument $t$)
+are already defined in {\tt losses.py} for you. What you have to do is to define the 3 functions: {\tt loss\_calculator}, {\tt loss\_grad\_calculator},
+{\tt loss\_grad\_1d\_calculator} using the equation~\eqref{loss} above and the equations~\eqref{loss_grad} and~\eqref{loss_grad_1d} below respectively:
+\begin{equation}\label{loss_grad}
+\nabla f(\beta) = \frac{1}{n} \sum_{i=1}^n \ell'(\beta^\top X_i, Y_i) X_i
+\end{equation}
+\begin{equation}\label{loss_grad_1d}
+[\nabla f(\beta)]_j = \frac{1}{n} \sum_{i=1}^n \ell'(\beta^\top X_i, Y_i) X_{i,j}
+\end{equation}
+where $X_{i,j}$ is the $j$th feature/covariate of the $i$th example/input. Note that {\tt loss\_calculator} is actually already almost complete except that you will
+need to implement a helper function {\tt vector\_dot} that simply returns
+$u^\top v = \sum_{j=1}^d u_jv_j$ for two vectors $u$ and $v$ (represented as lists of floats).
+
+Task 2.3 has 4 subtasks: 2.3.1 through 2.3.4 (0.5 points each).
+
+\subsection{Testing the optimization routines on regression and logistic regression (2 points)}
+
+The {\tt main()} function first creates a regression data set with continuous responses $Y_i$ and then creates a binary classification data set with
+binary valued labels $Y_i \in \{-1,+1\}$. It runs gradient descent and coordinate descent on both data sets using certain fixed choices for initial
+points and step sizes (leave them as they are). Your task it to create appropriate functions that can be passed to gradient desct and coordinate
+descent so that the entire ${\tt main()}$ function executes properly.
+
+Task 2.4 has 2 subtasks: 2.4.1 and 2.4.2
+
+\subsection{Running the script and discussing the output (2 points)}
+
+After completing all tasks, run the script using:\\
+{\tt python assignment\_one\_optimization.py} \\
+(making sure that {\tt losses.py} is in the same directory) and answer the following questions.
+
+\begin{description}
+\item[Q. 2.1]
+Which optimization method took less time? Does your answer depend on whether you're talking about squared loss or logistic loss case?
+\item[Q. 2.2]
+Do the optimization methods return reasonable solutions? How does the returned solution compare to the true parameter vector?
+If we ran the optimization to more and more iterations, would you expect the returned solution to converge to the true parameter?
+\end{description}
+
+
+\section{Nearest Neighbor Classification (7 points)}
+
+In this part, we will implement the k-nearest neighbor classification algorithm for a multiclass classification and compute 10-fold cross-validation
+errors on a randomly shuffled version of {\tt seeds\_dataset.txt} which is available here:\\
+\href{https://github.com/ambujtewari/stats607a-fall2015/blob/master/homeworks/datasets/seeds_dataset_shuffled.txt}{\tt seeds\_dataset\_shuffled.txt} \\
+(Make sure you click on the ``Raw"" button to download the raw .txt file).
+Download the incomplete code from:\\
+\href{https://github.com/ambujtewari/stats607a-fall2015/blob/master/homeworks/assignment_one_nearest_neighbor.py}{\tt assignment\_one\_nearest\_neighbor.py}
+
+\subsection{Creating folds (2 points)}
+
+Your first task is to write the function {\tt get\_fold\_indices} that'll be used to create the different folds in 10-fold cross validation. It takes three arguments:
+{\tt n} (sample size), {\tt num\_folds} (total number of folds) and {\tt fold\_id} (which fold are we creating?). It should return a tuple of lists: {\tt
+train\_indices, test\_indices}. It's behavior is best illustrated by an example:
+\begin{verbatim}
+>>> get_fold_indices(10, 5, 0)  # 10 samples/5-fold CV/get train-test indices for fold 0
+([2, 3, 4, 5, 6, 7, 8, 9], [0, 1])
+>>> get_fold_indices(10, 5, 1)
+([0, 1, 4, 5, 6, 7, 8, 9], [2, 3])
+>>> get_fold_indices(10, 5, 2)
+([0, 1, 2, 3, 6, 7, 8, 9], [4, 5])
+>>> get_fold_indices(10, 5, 3)
+([0, 1, 2, 3, 4, 5, 8, 9], [6, 7])
+>>> get_fold_indices(10, 5, 4)
+([0, 1, 2, 3, 4, 5, 6, 7], [8, 9])
+\end{verbatim}
+
+As you can see, when {\tt n} is divisible by {\tt fold\_size}, all splits are of equal size. When {\tt n} is not divisible by {\tt fold\_size}, the last split will have a slightly larger
+test indices list and a slightly smaller train indices list. For example, when we have 12 samples and we're doing 5-fold CV, we should get the following behavior:
+\begin{verbatim}
+>>> get_fold_indices(12, 5, 0)
+([2, 3, 4, 5, 6, 7, 8, 9, 10, 11], [0, 1])
+>>> get_fold_indices(12, 5, 1)
+([0, 1, 4, 5, 6, 7, 8, 9, 10, 11], [2, 3])
+>>> get_fold_indices(12, 5, 2)
+([0, 1, 2, 3, 6, 7, 8, 9, 10, 11], [4, 5])
+>>> get_fold_indices(12, 5, 3)
+([0, 1, 2, 3, 4, 5, 8, 9, 10, 11], [6, 7])
+>>> get_fold_indices(12, 5, 4)
+([0, 1, 2, 3, 4, 5, 6, 7], [8, 9, 10, 11])
+\end{verbatim}
+
+Task 3.1 has 3 subtasks: 3.1.1, 3.1.2 and 3.1.3 (.5, .5 and 1 points).
+
+\subsection{k-nearest neighbor classifier (2 points)}
+
+Implement the function {\tt nn\_classifier}. Given a {\tt point} to classify, we first sort examples in {\tt train\_data} according to their distances from {\tt point}. Then we
+want to look at the labels of the $k$-nearest data points. These should get stored in {\tt nearest\_k\_labels}. Then we find the label that occurs the most in 
+{\tt nearest\_k\_labels} and return it. If there are ties, we break them at random.
+
+Task 3.2 has 3 subtasks: 3.2.1 through 3.2.3 (.5, .5 and 1 points).
+
+\subsection{Computing classification error (1 point)}
+
+Implement the function {\tt classification\_error}. Given a {\tt classifier} and a {\tt data} set with {\tt labels}, it should figure out the number of examples in the data set on
+which the classifier's label disagrees with the provided label. Finally, it should return the error rate: total number of errors divided by sample size.
+
+\subsection{Creating and processing the folds (1 point)}
+
+For each fold, use the indices returned to {\tt get\_fold\_indices} to create a classifier trained on the training and test data sets for that fold. Then
+evaluate the error rate of that classifier on the test set of that fold.
+
+Task 3.4 has 2 subtasks: 3.4.1 and 3.4.2
+
+\subsection{Running the script and discussing the output (1 point)}
+
+Once all functions have been implemented run the script (it will read data from {\tt seeds\_dataset\_shuffled.txt} and will import definitions from {\tt assignment\_one\_kmeans.py}. So
+make sure these two files are present in the same directory. Answer the following question.
+
+\begin{description}
+\item[Q. 3.1]
+Which $k$ values gave you lowest $10$-fold CV errors? If you run the same code on the unshuffled data {\tt seeds\_dataset.txt}, would you see higher or lower errors?
+Why?
+\end{description}
+
+
+\end{document}

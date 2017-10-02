@@ -1,8 +1,6 @@
 # Assignment 2, Part 2: Support Vector Machine
 #
 # Version 0.1
-#
-# Thanks to the following students for reporting bugs:
 
 import numpy as np
 import kernels as ker

@@ -34,9 +34,3 @@ def sigmoid(gamma, intercept=0.0):
         return np.arctan(gamma*np.inner(u, v) + intercept)
 
     return sigmoid_kernel_func
-
-
-def logistic_loss_deriv(t, y):
-    """ Returns derivative of logistic_loss(t, y) w.r.t. t. """
-
-    return (-y * math.exp(-y*t)) / (1 + math.exp(-y*t))

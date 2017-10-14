@@ -73,4 +73,6 @@ while len(fs_list) < nresults:
 df = pd.DataFrame()
 n, p = df.shape
 print "Created data frame with data on %d variables about %d fuel stations\n" % (p, n)
+
+# print a few columns of the DataFrame
 print df.to_string(columns=['station_name', 'street_address', 'fuel_type_code'])

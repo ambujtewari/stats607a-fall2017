@@ -23,24 +23,54 @@ def get_data(url):
     return data
 
 
-# the URL for the Public Jobs API
-# API specs at:
-# https://developer.nrel.gov/docs/transportation/alt-fuel-stations-v1/nearest/
-api_key = "8elBa6cla2QydZGC0rVk9O1mP6l4TtmhH5Imv3Bv"
-url = 'https://api.data.gov/nrel/alt-fuel-stations/v1/nearest.json?api_key=%s&location=Ann%%20Arbor+MI' % api_key
+# TASK 3.1
+# get your private API key via the web form and paste the 40 characters below
+api_key = ''
+
+# set location as Ann Arbor
+# note that %20 in URLs means the space character
+location = 'Ann%20Arbor+MI'
+
+# set up the query format
+query_fmt = 'https://api.data.gov/nrel/alt-fuel-stations/v1/nearest.json?api_key=%s&location=%s'
+
+# TASK 3.2
+# construct the query URL using api_key, location, query_fmt
+url = ''
 
 # get data from the given URL
-print 'Getting initial page of results...'
+print 'Fetching results from URL: %s' % url
 data = get_data(url)
 
-# one of the keys in the Python dict will have the actual
-# jobs data
-job_list = data['total_results']
+# TASK 3.3
+# get the number of results from one of the keys in the Python dict data
+nresults = 0
+print 'There are a total of %d results' % nresults
 
-# create a DataFrame from jobs data
-df = pd.DataFrame(data['fuel_stations'])
+# TASK 3.4
+# another key in the dict will be a list of fuel stations
+fs_list = []
+print 'Have data on %d results' % len(fs_list)
 
-n, d = df.shape
-print 'Fetched %d fuel stations. Have %d attributes for each.' % (n, d)
+# TASK 3.5
+# Fetching additional fuel station data
+while len(fs_list) < nresults:
+    # TASK 3.5.1
+    # construct a new query URL now with an offset parameter
+    offset = 0
+    url_offset = ''
+    
+    # fetch additional results using the specified offset
+    print 'Fetching additional results from URL: %s' % url_offset
+    data = get_data(url_offset)
+    
+    # TASK 3.5.2
+    # extend the list with the newly fetched fuel station data
+    fs_list.extend([])
+    print 'Now have data on %d results' % len(fs_list)
 
-print df['station_name']
+# TASK 3.6
+df = pd.DataFrame()
+n, p = df.shape
+print "Created data frame with data on %d variables about %d fuel stations\n" % (p, n)
+print df.to_string(columns=['station_name', 'street_address', 'fuel_type_code'])

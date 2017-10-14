@@ -1,7 +1,4 @@
-# Assignment 3, Part 3: Pull data about federal jobs
-#
-# Version 0.1
-
+# Assignment 3, Part 3: Pull data about alternative fuel stations
 
 from urllib2 import urlopen, Request
 import json
